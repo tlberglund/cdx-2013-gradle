@@ -1,5 +1,3 @@
-apply from: 'database.gradle'
-apply plugin: LiquibasePlugin
 
 import liquibase.integration.commandline.Main
 
@@ -14,6 +12,7 @@ buildscript {
 }
 
 
+/*
 liquibase {
   databases {
     sandbox {
@@ -28,78 +27,4 @@ defaultDatabase = liquibase.databases.sandbox
 generateChangeLog.changeLogFile = project.file('changelog.xml')
 changeLogSync.changeLogFile = project.file('changelog.xml')
 update.changeLogFile = project.file('changelog.xml')
-
-
-
-
-class Database {
-  def url
-  def username
-  def password
-  String name
-  
-  Database(String name) {
-    this.name = name
-  }
-}
-
-class LiquibaseExtension {
-  
-  NamedDomainObjectContainer<Database> databases
-    
-  public LiquibaseExtension(NamedDomainObjectContainer<Database> databases) {
-    this.databases = databases
-  }
-  
-  void databases(Closure c) {
-    databases.configure(c)
-  } 
-}
-
-
-class LiquibasePlugin implements Plugin<Project> {
-  
-  void apply(Project project) {
-    def databases = project.container(Database) { name -> 
-      new Database(name) 
-    }
-    project.configure(project) {
-      extensions.create("liquibase", LiquibaseExtension, databases)
-    }
-    ['generateChangeLog', 'changeLogSync', 'update'].each { taskName ->
-      project.task(taskName, type: LiquibaseTask) {
-        command = taskName
-      }
-    }
-  }
-  
-}
-
-class LiquibaseTask extends DefaultTask { 
-  Database database
-  File changeLogFile
-  def command
-
-  @TaskAction
-  def liquibaseAction() {
-    if(!database) {
-      database = project.defaultDatabase
-    }
-    
-    def args = [ "--url=${database.url}", "--username=${database.username}",
-                 "--password=${database.password}",
-                 "--changeLogFile=${changeLogFile.absolutePath}",
-                 command]
-
-    Main.main(args as String[])
-  }
-}
-
-task dbs {
-  doLast {
-    databases.each { println it.name }
-  }
-}
-
-
-
+*/
