@@ -5,6 +5,9 @@
 * Java
 * Dependencies
 * Task types
-* Tests
+* Multiproject
 * Wrapper
+* Publish and consume
+* Tests
+
 * Custom plugins

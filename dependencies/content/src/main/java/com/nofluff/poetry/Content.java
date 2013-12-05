@@ -1,16 +1,14 @@
 package com.nofluff.poetry;
 
-import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
-import org.apache.commons.codec.binary.Base64;
 
-public class PoetryEmitter {
+public class Content {
    
    public List<String> poe() {
       List<String> lines = new ArrayList<String>();
       
-      lines.add("Ah distinctly I remember it was in the bleak December");
+      lines.add("Ah, distinctly I remember it was in the bleak December");
       lines.add("And each separate dying ember wrought its ghost upon the floor");
       lines.add("Eagerly I wished the morrow; vainly I had wished to borrow");
       lines.add("From my books surcease of sorrow—sorrow for the lost Lenore.");
@@ -22,19 +20,6 @@ public class PoetryEmitter {
    
    public List<String> shelley() {
       List<String> lines = new ArrayList<String>();
-/*
-      try {
-         InputStream is = getClass().getClassLoader().getResourceAsStream("shelley.txt");
-         LineNumberReader lnr = new LineNumberReader(new InputStreamReader(is));
-         String line;
-         while((line = (String)lnr.readLine()) != null) {
-            System.out.println(line);
-         }
-      }
-      catch(IOException e) {
-         e.printStackTrace();
-      }
-*/
 
       lines.add("I met a traveller from an antique land");
       lines.add("Who said: \"Two vast and trunkless legs of stone");
@@ -81,24 +66,6 @@ public class PoetryEmitter {
       lines.add("With carrion men, groaning for burial.");
 
       return lines;
-   }
-   
-   public void emit(List<String> lines) {
-      for(String line: lines) {
-         //System.out.println(line);
-         System.out.println(encode(line));
-      }
-   }
-   
-   public String encode(String line) {
-      Base64 codec = new Base64();
-      return new String(codec.encode(line.getBytes()));
-      //return line;
-   }
-   
-   public static void main(String[] args) {
-      PoetryEmitter pe = new PoetryEmitter();
-      pe.emit(pe.poe());
    }
 }
 

@@ -1,0 +1,30 @@
+apply plugin: 'groovy'
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+dependencies {
+  compile 'org.codehaus.groovy:groovy:1.8.6'
+  compile 'com.nofluff:codec:0.1-SNAPSHOT'
+  compile 'com.nofluff:content:0.1-SNAPSHOT'
+  compile 'commons-codec:commons-codec:1.5'}
+
+['shakespeare', 'shelley', 'poe'].each { poet -> 
+
+  task "${poet}"(type: JavaExec) {
+    main = 'com.nofluff.poetry.PoetryEmitter'
+    classpath = runtimeClasspath
+    description = "Some poetry from ${poet}"
+    group = "Poetry"
+    args = [ poet ]
+  }
+
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.9'
+}
+
+

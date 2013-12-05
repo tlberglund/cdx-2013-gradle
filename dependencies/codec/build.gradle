@@ -1,0 +1,14 @@
+// Codec build file
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.nofluff'
+version = '0.1-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'commons-codec:commons-codec:1.6'
+}

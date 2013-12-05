@@ -1,0 +1,22 @@
+
+task hello
+task world
+
+world {
+  dependsOn << hello
+  group = "Continuous Delivery Experience"
+  description = "...the world"
+  doLast {
+    println "world"
+  }
+}
+
+hello {
+  group = "Continuous Delivery Experience"
+  description = "Say hello to..."
+  doLast {
+    print "hello, "
+  }
+}
+
+println "lolwut"

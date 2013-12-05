@@ -1,0 +1,15 @@
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'commons-codec:commons-codec:1.6'
+}
+
+task poetry(type: JavaExec) {
+  main = 'com.nofluff.poetry.PoetryEmitter'
+  classpath = runtimeClasspath
+}
+

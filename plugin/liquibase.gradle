@@ -1,41 +1,63 @@
+apply plugin: LiquibasePlugin
 
-import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.TaskAction
-import liquibase.integration.commandline.Main
+/*
 
-buildscript { 
+Tasks:
+ * generateChangeLog
+ * changeLogSync
+ * update
+
+*/
+
+
+buildscript {
   repositories {
     mavenCentral()
   }
   dependencies {
     classpath 'org.liquibase:liquibase-core:2.0.1'
-    classpath 'com.h2database:h2:1.3.153'
+    classpath 'com.h2database:h2:1.3.172'
   }
 }
+import liquibase.integration.commandline.Main
 
-task generateChangeLog(type: LiquibaseTask) {
+
+generateChangeLog {
   url = 'jdbc:h2:db/gradle_example_database;FILE_LOCK=NO'
   username = 'sa'
   password = ''
-  changeLogFile = file('changelog.xml')
-  command = 'generateChangeLog'
+  changeLogFile = 'changelog.xml'
 }
 
 
-class LiquibaseTask extends DefaultTask { 
+
+class LiquibasePlugin 
+  implements Plugin {
+  
+  void apply(def project) {
+    project.task('generateChangeLog', 
+                 type: GenerateChangeLogTask)  
+  }
+}
+
+
+class GenerateChangeLogTask extends DefaultTask {
   def url
   def username
   def password
-  File changeLogFile
-  def command
+  def changeLogFile
 
   @TaskAction
-  def liquibaseAction() { 
-    def args = [ "--url=${url}", "--username=${username}",
-                 "--password=${password}",
-                 "--changeLogFile=${changeLogFile.absolutePath}",
-                 command]
+  def liquibaseAction() {
+    def args = [
+      "--url=${url}", 
+      "--username=${username}", 
+      "--password=${password}",
+      "--changeLogFile=${changeLogFile}",
+      "generateChangeLog"
+    ]
 
     Main.main(args as String[])
   }
-} 
+
+}
